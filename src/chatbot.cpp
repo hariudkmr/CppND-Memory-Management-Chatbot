@@ -30,10 +30,10 @@ ChatBot::ChatBot(std::string filename) {
 
 ChatBot::~ChatBot() {
   std::cout << "ChatBot Destructor" << std::endl;
-
   // deallocate heap memory
   if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
   {
+    
     delete _image;
     _image = NULL;
   }
@@ -41,33 +41,35 @@ ChatBot::~ChatBot() {
 
 //// STUDENT CODE
 ////
-ChatBot::ChatBot(const ChatBot& source) {
+ChatBot::ChatBot(const ChatBot &source) {
 
+  std::cout << "ChatBot Copy Constructor" << std::endl;
   _chatLogic = source._chatLogic;
-  _rootNode  = source._rootNode;
-  _image     = new wxBitmap();
+  _rootNode = source._rootNode;
+  _image = new wxBitmap();
   *_image = *source._image;
 
   _chatLogic->SetChatbotHandle(this);
-
 }
 
 void ChatBot::operator=(const ChatBot &source) {
 
-    _image = new wxBitmap();
-    *_image = *source._image;
+  std::cout << "ChatBot Copy Overloading Assigment Operator" << std::endl;
+  _image = new wxBitmap();
+  *_image = *source._image;
 
-    _chatLogic = source._chatLogic;
-    _rootNode = source._rootNode;
-    _currentNode = source._currentNode;
+  _chatLogic = source._chatLogic;
+  _rootNode = source._rootNode;
+  _currentNode = source._currentNode;
 
-    _chatLogic->SetChatbotHandle(this);
+  _chatLogic->SetChatbotHandle(this);
 }
 
-ChatBot::ChatBot(ChatBot&& source) {
+ChatBot::ChatBot(ChatBot &&source) {
   // invalidate data handles
+  std::cout << "ChatBot Move Constructor" << std::endl;
   if (this == &source)
-        return;
+    return;
 
   _chatLogic = source._chatLogic;
   _chatLogic->SetChatbotHandle(this);
@@ -79,12 +81,11 @@ ChatBot::ChatBot(ChatBot&& source) {
   source._rootNode = nullptr;
   source._currentNode = nullptr;
   source._image = nullptr;
-
 }
 
-void ChatBot::operator=(ChatBot&& source) {
+void ChatBot::operator=(ChatBot &&source) {
   // invalidate data handles
-
+  std::cout << "ChatBot Move Assigment Operator Overloading" << std::endl;
   this->_chatLogic = source._chatLogic;
   this->_chatLogic->SetChatbotHandle(this);
   this->_rootNode = source._rootNode;
@@ -95,7 +96,6 @@ void ChatBot::operator=(ChatBot&& source) {
   source._rootNode = nullptr;
   source._currentNode = nullptr;
   source._image = nullptr;
-
 }
 
 ////
